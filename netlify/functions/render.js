@@ -1,0 +1,3 @@
+/netlify
+  /functions
+    render.js
