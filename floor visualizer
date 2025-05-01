@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>AI Floor Visualizer</title></head>
+<body style="font-family:sans-serif;padding:20px;max-width:600px;margin:auto;">
+  <h1>AI Floor Visualizer</h1>
+  <input id="photo-url-input" placeholder="Photo URL" style="width:100%;margin:8px 0;"/>
+  <input id="color-input"    placeholder="Color (e.g. granite-gray)" style="width:100%;margin:8px 0;"/>
+  <button id="preview-button" style="padding:8px 16px;">Generate Preview</button>
+  <img id="render" alt="Floor Preview" style="display:block;margin-top:16px;max-width:100%;"/>
+  <script>
+    const RENDER_URL = 'https://awardcoatings.netlify.app/.netlify/functions/render';
+    document.getElementById('preview-button').onclick = async () => {
+      const photoUrl = document.getElementById('photo-url-input').value;
+      const color    = document.getElementById('color-input').value;
+      const res = await fetch(RENDER_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ photoUrl, color })
+      });
+      const { imageUrl } = await res.json();
+      document.getElementById('render').src = imageUrl;
+    };
+  </script>
+</body>
+</html>
